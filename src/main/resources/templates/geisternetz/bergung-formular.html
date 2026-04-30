@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bergung eintragen – Ghost Net Fishing</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="nav-icon">&#127397;</span>
+        <span>Ghost Net Fishing</span>
+    </div>
+    <div class="nav-links">
+        <a th:href="@{/geisternetze}" class="nav-link">Alle Netze</a>
+        <a th:href="@{/geisternetze/zu-bergen}" class="nav-link">Zu Bergen</a>
+        <a th:href="@{/geisternetze/uebersicht}" class="nav-link">Bergungsübersicht</a>
+        <a th:href="@{/meldung/erfassen}" class="nav-link btn-primary">+ Netz melden</a>
+    </div>
+</nav>
+<main class="container">
+    <div class="form-container">
+        <h1>Bergung eintragen</h1>
+
+        <div class="info-box">
+            <h3>Netz #<span th:text="${netz.id}"></span></h3>
+            <p><strong>Koordinaten:</strong> <span th:text="${netz.latitude} + ', ' + ${netz.longitude}"></span></p>
+            <p><strong>Größe:</strong> <span th:text="${netz.groesse}"></span></p>
+        </div>
+
+        <form th:action="@{/geisternetze/bergung/{id}(id=${netz.id})}" method="post">
+            <div class="form-group">
+                <label for="name">Ihr Name *</label>
+                <input type="text" id="name" name="name" required class="form-control"
+                       placeholder="Vollständiger Name"/>
+            </div>
+            <div class="form-group">
+                <label for="telefonnummer">Telefonnummer *</label>
+                <input type="tel" id="telefonnummer" name="telefonnummer" required class="form-control"
+                       placeholder="+49 000 0000000"/>
+            </div>
+            <div class="form-actions">
+                <a th:href="@{/geisternetze/zu-bergen}" class="btn btn-secondary">Abbrechen</a>
+                <button type="submit" class="btn btn-primary">Bergung bestätigen</button>
+            </div>
+        </form>
+    </div>
+</main>
+<footer class="footer">
+    <p>Ghost Net Fishing &mdash; IU Fallstudie IPWA02-01</p>
+</footer>
+</body>
+</html>

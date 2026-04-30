@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Geisternetz melden – Ghost Net Fishing</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="nav-icon">&#127397;</span>
+        <span>Ghost Net Fishing</span>
+    </div>
+    <div class="nav-links">
+        <a th:href="@{/geisternetze}" class="nav-link">Alle Netze</a>
+        <a th:href="@{/geisternetze/zu-bergen}" class="nav-link">Zu Bergen</a>
+        <a th:href="@{/geisternetze/uebersicht}" class="nav-link">Bergungsübersicht</a>
+        <a th:href="@{/meldung/erfassen}" class="nav-link btn-primary active">+ Netz melden</a>
+    </div>
+</nav>
+<main class="container">
+    <div class="form-container">
+        <h1>Geisternetz melden</h1>
+        <p class="form-subtitle">Meldungen können anonym erfolgen. Bitte geben Sie die GPS-Koordinaten und die geschätzte Netzgröße an.</p>
+
+        <form th:action="@{/meldung/erfassen}" method="post">
+            <fieldset>
+                <legend>Netz-Informationen</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="latitude">Breitengrad (Latitude) *</label>
+                        <input type="number" id="latitude" name="latitude" step="0.000001"
+                               required class="form-control" placeholder="z.B. 54.321000"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Längengrad (Longitude) *</label>
+                        <input type="number" id="longitude" name="longitude" step="0.000001"
+                               required class="form-control" placeholder="z.B. 10.123000"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="groesse">Geschätzte Größe *</label>
+                    <select id="groesse" name="groesse" required class="form-control">
+                        <option value="">Bitte wählen…</option>
+                        <option value="Klein (unter 5m²)">Klein (unter 5m²)</option>
+                        <option value="Mittel (5–20m²)">Mittel (5–20m²)</option>
+                        <option value="Groß (20–100m²)">Groß (20–100m²)</option>
+                        <option value="Sehr groß (über 100m²)">Sehr groß (über 100m²)</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Ihre Angaben (optional)</legend>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="anonym" name="anonym" value="true"
+                               onchange="toggleAnonymFields(this)"/>
+                        Anonym melden (keine Kontaktdaten erforderlich)
+                    </label>
+                </div>
+                <div id="person-felder">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" class="form-control"
+                               placeholder="Ihr Name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefonnummer">Telefonnummer</label>
+                        <input type="tel" id="telefonnummer" name="telefonnummer" class="form-control"
+                               placeholder="+49 000 0000000"/>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="form-actions">
+                <a th:href="@{/geisternetze}" class="btn btn-secondary">Abbrechen</a>
+                <button type="submit" class="btn btn-primary">Netz melden</button>
+            </div>
+        </form>
+    </div>
+</main>
+<footer class="footer">
+    <p>Ghost Net Fishing &mdash; IU Fallstudie IPWA02-01</p>
+</footer>
+<script>
+function toggleAnonymFields(checkbox) {
+    const felder = document.getElementById('person-felder');
+    felder.style.display = checkbox.checked ? 'none' : 'block';
+}
+</script>
+</body>
+</html>

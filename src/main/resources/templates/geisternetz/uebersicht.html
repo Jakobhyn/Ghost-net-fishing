@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bergungsübersicht – Ghost Net Fishing</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="nav-icon">&#127397;</span>
+        <span>Ghost Net Fishing</span>
+    </div>
+    <div class="nav-links">
+        <a th:href="@{/geisternetze}" class="nav-link">Alle Netze</a>
+        <a th:href="@{/geisternetze/zu-bergen}" class="nav-link">Zu Bergen</a>
+        <a th:href="@{/geisternetze/uebersicht}" class="nav-link active">Bergungsübersicht</a>
+        <a th:href="@{/meldung/erfassen}" class="nav-link btn-primary">+ Netz melden</a>
+    </div>
+</nav>
+<main class="container">
+    <div class="page-header">
+        <h1>Wer bergt welche Netze?</h1>
+        <span class="badge" th:text="${netze.size()} + ' zugeordnet'"></span>
+    </div>
+
+    <div th:if="${netze.empty}" class="empty-state">
+        <p>Noch keine Bergungen eingetragen.</p>
+        <a th:href="@{/geisternetze/zu-bergen}" class="btn btn-primary">Netze ansehen</a>
+    </div>
+
+    <table th:if="${!netze.empty}" class="table">
+        <thead>
+            <tr>
+                <th>Netz-ID</th>
+                <th>Koordinaten</th>
+                <th>Größe</th>
+                <th>Status</th>
+                <th>Bergende Person</th>
+                <th>Telefonnummer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="netz : ${netze}">
+                <td th:text="${netz.id}"></td>
+                <td th:text="${netz.latitude} + ', ' + ${netz.longitude}"></td>
+                <td th:text="${netz.groesse}"></td>
+                <td>
+                    <span class="status-badge"
+                          th:classappend="${netz.status.name()}"
+                          th:text="${netz.status.anzeigeName}">
+                    </span>
+                </td>
+                <td th:text="${netz.bergendePerson.name}"></td>
+                <td th:text="${netz.bergendePerson.telefonnummer}"></td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+<footer class="footer">
+    <p>Ghost Net Fishing &mdash; IU Fallstudie IPWA02-01</p>
+</footer>
+</body>
+</html>
